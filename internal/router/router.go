@@ -20,4 +20,7 @@ func SetupRouters(r *gin.Engine) {
 	r.PUT("/courses/:id", handlers.UpdateCourseHandler)
 	r.PUT("/enrollments/:id", handlers.UpdateEnrollmentHandler)
 
+	r.DELETE("/students/:id", )
+	r.DELETE("/courses/:id", )
+	r.DELETE("/enrollments/:id", )
 }

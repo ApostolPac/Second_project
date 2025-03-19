@@ -124,7 +124,7 @@ func UpdateCourseHandler(c *gin.Context) {
 
 }
 
-func UpdateEnrollmentHandler(c *gin.Context){
+func UpdateEnrollmentHandler(c *gin.Context) {
 	var enrollment models.Enrollment
 
 	idParam := c.Param("id")
@@ -148,4 +148,20 @@ func UpdateEnrollmentHandler(c *gin.Context){
 
 	c.JSON(http.StatusOK, gin.H{"message": "enrollment updated successfully"})
 
+}
+
+func DeleteStudentHandler(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid student ID"})
+		return
+	}
+	err = db.DeleteStudent(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "student deleted successfully"})
 }

@@ -118,8 +118,8 @@ func CreateEnroll(enrollment models.Enrollment) error {
 	_, err := db.Exec("INSERT INTO enrollments (student_id, course_id, enrolled_at) VALUES ($1, $2, NOW())",
 		enrollment.StudentId, enrollment.CourseId)
 	if err != nil {
-		log.Printf("Ошибка при создании записи: %v. Данные: student_id=%d, course_id=%d", 
-            err, enrollment.StudentId, enrollment.CourseId)
+		log.Printf("Ошибка при создании записи: %v. Данные: student_id=%d, course_id=%d",
+			err, enrollment.StudentId, enrollment.CourseId)
 		return err
 	}
 	return nil
@@ -181,5 +181,39 @@ func UpdateEnrollment(enrollment models.Enrollment, id int) error {
 		return fmt.Errorf("enrollment not found for update")
 	}
 
+	return nil
+}
+
+func DeleteStudent(id int) error {
+	result, err := db.Exec("DELETE FROM student WHERE id = $1", id)
+	if err != nil {
+		return err
+	}
+	RowsAffected, _ := result.RowsAffected()
+	if RowsAffected == 0 {
+		return fmt.Errorf("student not found")
+	}
+	return nil
+}
+func DeleteCourse(id int) error {
+	result, err := db.Exec("DELETE FROM courses WHERE id = $1", id)
+	if err != nil {
+		return err
+	}
+	RowsAffected, _ := result.RowsAffected()
+	if RowsAffected == 0 {
+		return fmt.Errorf("course not found")
+	}
+	return nil
+}
+func DeleteEnrollment(id int) error {
+	result, err := db.Exec("DELETE FROM enrollments WHERE id = $1", id)
+	if err != nil {
+		return err
+	}
+	RowsAffected, _ := result.RowsAffected()
+	if RowsAffected == 0 {
+		return fmt.Errorf("enrollemnt not found")
+	}
 	return nil
 }
