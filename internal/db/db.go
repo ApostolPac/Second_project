@@ -48,7 +48,7 @@ func GetStudents() []models.Student {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var students []models.Student
+	students := make([]models.Student, 0)
 	for rows.Next() {
 		var student models.Student
 		err := rows.Scan(&student.Id, &student.Name, &student.Email)
@@ -65,7 +65,7 @@ func GetCourses() (array []models.Course) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var courses []models.Course
+	courses := make([]models.Course, 0)
 	for rows.Next() {
 		var course models.Course
 		err := rows.Scan(&course.Id, &course.Title, &course.Description)
@@ -82,7 +82,7 @@ func GetEnrollments() (array []models.Enrollment) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var enrollments []models.Enrollment
+	enrollments := make([]models.Enrollment, 0)
 	for rows.Next() {
 		var enrollment models.Enrollment
 		err := rows.Scan(&enrollment.Id, &enrollment.StudentId, &enrollment.CourseId, &enrollment.EnrolledAt)
@@ -185,7 +185,7 @@ func UpdateEnrollment(enrollment models.Enrollment, id int) error {
 }
 
 func DeleteStudent(id int) error {
-	result, err := db.Exec("DELETE FROM student WHERE id = $1", id)
+	result, err := db.Exec("DELETE FROM students WHERE id = $1", id)
 	if err != nil {
 		return err
 	}
